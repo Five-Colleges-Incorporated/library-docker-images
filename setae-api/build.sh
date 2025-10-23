@@ -36,4 +36,3 @@ curl "localhost:$build"
 
 #re-enable when we have an updated xml
 #curl "localhost:$build/items/5159903*-UMA"
-
