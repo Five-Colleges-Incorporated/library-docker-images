@@ -27,9 +27,13 @@ docker build \
 	-t edu.fivecolleges.libraries.setae-api:"$build" \
 	.
 
-setae="$(docker run -d -p "$build":80 edu.fivecolleges.libraries.setae-api:"$build")"
+setae="$(docker run -d -p "$build":80 --env-file .env edu.fivecolleges.libraries.setae-api:"$build")"
 trap 'docker container rm --force "$setae" >/dev/null' exit
 
 echo "waiting for startup"
 sleep 10
-curl localhost:"$build"
+curl "localhost:$build"
+
+#re-enable when we have an updated xml
+#curl "localhost:$build/items/5159903*-UMA"
+
