@@ -9,7 +9,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 WORKDIR /app
 ARG REQUIREMENTS_FILE=requirements.lock
 RUN --mount=type=bind,source=${REQUIREMENTS_FILE},target=requirements.txt <<UV
-set -eux pipefail
+set -euo pipefail
 uv venv --no-managed-python
 uv pip install --no-cache -r requirements.txt
 UV
@@ -19,5 +19,4 @@ FROM python AS setae-api
 WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
 ADD ./setae-api/app /app
-ARG FASTAPI_PORT=80
 CMD [".venv/bin/fastapi", "run", "main.py", "--port", "80"]
