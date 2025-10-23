@@ -31,5 +31,5 @@ setae="$(docker run -d -p "$build":80 edu.fivecolleges.libraries.setae-api:"$bui
 trap 'docker container rm --force "$setae" >/dev/null' exit
 
 echo "waiting for startup"
-sleep 15
+sleep 10
 curl localhost:"$build"
