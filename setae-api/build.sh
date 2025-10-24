@@ -42,7 +42,7 @@ curl "localhost:$build/items/310212313168477?format=json"
 echo ""
 
 if [[ "${1:-}" == "--check-xml" ]] || [[ "${2:-}" == "--check-xml" ]]; then
-	echo "processing xml"
+	echo "fetching xml"
 	curl "localhost:$build/items/5159903*-UMA"
 	echo ""
 fi

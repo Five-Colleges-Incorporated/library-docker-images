@@ -16,11 +16,14 @@ uv venv --no-managed-python
 uv pip install --no-cache -r requirements.txt
 UV
 
+FROM scratch AS app
+ADD ./setae-api/app /app
+ADD ./alma-rest-item.xsl ./prefix-suffix.csv /app/
 
 FROM python AS setae-api
 WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
-ADD ./setae-api/app /app
+COPY --from=app /app /app
 
 ENV BARCODE_REGEX='^(^(^\d{2,}\*-[A-Z]{2,3}$)|(((\d{8,}\*-?)|([-`:% \+\.\(\)\/\\a-zà-üA-ZÀ-Ü0-9]+))(=?[a-zA-Z]{2,3})?$))$'
 HEALTHCHECK --interval=15m CMD curl -f http://localhost/ || exit 1
