@@ -1,5 +1,7 @@
 fastapi[standard]>=0.88.0
-json2xml>=3.5.0
+# https://github.com/vinitkumar/json2xml/pull/213
+# This PR adds encoding="UTF-8" to the fragment which lxml chokes on
+json2xml>=3.5.0,<5.0.5
 lxml>=4.6.2
 python-dotenv>=0.14.0
 requests>=2.24.0

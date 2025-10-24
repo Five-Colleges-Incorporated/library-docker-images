@@ -8,7 +8,8 @@ FROM python AS builder
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 WORKDIR /app
 ARG REQUIREMENTS_FILE=requirements.lock
-RUN --mount=type=bind,source=${REQUIREMENTS_FILE},target=requirements.txt <<UV
+ADD ${REQUIREMENTS_FILE} requirements.txt
+RUN <<UV
 #! /usr/bin/env bash
 set -euo pipefail
 uv venv --no-managed-python

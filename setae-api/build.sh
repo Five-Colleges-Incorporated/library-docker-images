@@ -14,14 +14,16 @@ else
 	echo "have $version (no changes)"
 fi
 
-if [[ ${1:-} == "--relock" ]]; then
-	uv pip compile requirements.txt -o requirements.lock
-	git diff requirements.txt
+if [[ "${1:-}" == "--relock" ]] || [[ "${2:-}" == "--relock" ]]; then
+	git checkout requirements.lock
+	uv pip compile requirements.txt -o requirements.lock > /dev/null
+	git --no-pager diff requirements.lock
 fi
 
 build="$RANDOM"
 echo "building $build"
 docker build \
+	--build-arg PYTHON_VERSION="$(cat .python-version)" \
 	-t edu.fivecolleges.libraries.setae-api:latest \
 	-t edu.fivecolleges.libraries.setae-api:"$version" \
 	-t edu.fivecolleges.libraries.setae-api:"$build" \
@@ -33,6 +35,14 @@ trap 'docker container rm --force "$setae" >/dev/null' exit
 echo "waiting for startup"
 sleep 10
 curl "localhost:$build"
+echo ""
 
-#re-enable when we have an updated xml
-#curl "localhost:$build/items/5159903*-UMA"
+echo "fetching json"
+curl "localhost:$build/items/310212313168477?format=json"
+echo ""
+
+if [[ "${1:-}" == "--check-xml" ]] || [[ "${2:-}" == "--check-xml" ]]; then
+	echo "processing xml"
+	curl "localhost:$build/items/5159903*-UMA"
+	echo ""
+fi
