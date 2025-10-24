@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       image-version:
-        description: "Version of image tag"
+        description: "Version for image tag"
         type: "string"
         required: true
 
@@ -14,6 +14,8 @@ env:
   REGISTRY: ghcr.io
   NAMESPACE: Five-Colleges-Incorporated
   IMAGE_NAME: setae-api
+  IMAGE_TITLE: Setae API
+  IMAGE_DESCRIPTION: 5C Build of API middleware to support LTS workflows in FOLIO
 
 jobs:
   build-and-push-image:
@@ -29,6 +31,15 @@ jobs:
         with:
           submodules: true
 
+      - name: Extract submodule metadata for Docker
+        id: submodule_meta
+        run: |
+          echo source="$(git config --file .gitmodules --get-regexp url | grep "$IMAGE_NAME" | awk '{ print $2 }')" >> $GITHUB_OUTPUT
+          echo ref="$(git config --file .gitmodules --get-regexp branch | grep "$IMAGE_NAME" | awk '{ print $2 }')" >> $GITHUB_OUTPUT
+          echo sha="$(git submodule status "$IMAGE_NAME/$IMAGE_NAME" | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+          echo short="$(git submodule status "$IMAGE_NAME/$IMAGE_NAME" | awk '{ print substr($1, 0, 7) }')" >> $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
+
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
@@ -43,20 +54,26 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='America/New_York'}}
+            type=raw,value=${{ steps.submodule_meta.outputs.short }}
+            type=raw,value=${{ steps.submodule_meta.outputs.ref }}
             type=semver,pattern={{version}},value=${{ inputs.image-version }}
             type=semver,pattern={{major}}.{{minor}},value=${{ inputs.image-version }}
             type=semver,pattern={{major}},value=${{ inputs.image-version }}
           labels: |
-            org.opencontainers.image.description=5C Build of API middleware to support LTS workflows in FOLIO
-            org.opencontainers.image.source=https://github.com/Five-Colleges-Incorporated/setae-api
-            org.opencontainers.image.title=${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}
-            org.opencontainers.image.url=https://github.com/Five-Colleges-Incorporated/library-docker-images/setae-api
+            org.opencontainers.image.vendor=Five College Incorporated
+            org.opencontainers.image.authors=Katherine Bargar <kbargar@fivecolleges.edu>
+            org.opencontainers.image.title=${{ env.IMAGE_TITLE }}
+            org.opencontainers.image.description=${{ env.IMAGE_DESCRIPTION }}
+            org.opencontainers.image.url=${{ github.repository }}/${{ env.IMAGE_NAME }}
+            org.opencontainers.image.source=${{ steps.submodule_meta.outputs.source }}
+            org.opencontainers.image.revision=${{ steps.submodule_meta.outputs.sha }}
+            org.opencontainers.image.ref.name=${{ steps.submodule_meta.outputs.ref }}
 
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v6
         with:
-          context: ./setae-api
+          context: ./${{ env.IMAGE_NAME }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

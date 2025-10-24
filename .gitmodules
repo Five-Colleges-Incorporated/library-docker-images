@@ -1,3 +1,4 @@
 [submodule "setae-api/setae-api"]
 	path = setae-api/setae-api
 	url = https://github.com/Five-Colleges-Incorporated/setae-api.git
+	branch = alphanumeric-barcode
