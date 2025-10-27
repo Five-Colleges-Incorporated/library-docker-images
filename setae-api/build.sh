@@ -34,11 +34,29 @@ trap 'docker container rm --force "$setae" >/dev/null' exit
 
 echo "waiting for startup"
 sleep 10
-curl "localhost:$build"
+
+echo "readyz"
+curl -w "%{http_code}" "localhost:$build/readyz"
+echo ""
+
+echo "livez"
+curl -w "%{http_code}" "localhost:$build/livez"
+echo ""
+
+echo "407 proxy required"
+curl -w "%{http_code}" "localhost:$build"
+echo ""
+
+echo "401 unauthorized"
+curl -H "do-connecting-ip: 1.1.1.1" -w "%{http_code}" "localhost:$build"
+echo ""
+
+echo "hello world"
+curl -H "do-connecting-ip: 148.85.255.199" "localhost:$build"
 echo ""
 
 echo "fetching json"
-curl "localhost:$build/items/310212313168477?format=json"
+curl -H "do-connecting-ip: 148.85.255.199" "localhost:$build/items/310212313168477?format=json"
 echo ""
 
 if [[ "${1:-}" == "--check-xml" ]] || [[ "${2:-}" == "--check-xml" ]]; then
