@@ -31,7 +31,7 @@ async def filter_ips(request: Request, call_next):
         return Response(status_code=407)
 
     ip_addr = ipaddress.ip_address(ip)
-    logger.info('Received request from %s', ip_addr)
+    logger.info('Received %s request from %s', request.url.path, ip_addr)
 
     if any(ip_addr in cidr for cidr in allow_list):
         return await call_next(request)
