@@ -25,5 +25,6 @@ WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=app /app /app
 
+ENV WORKERS=2
 ENV BARCODE_REGEX='^(^(^\d{2,}\*-[A-Z]{2,3}$)|(((\d{8,}\*-?)|([-`:% \+\.\(\)\/\\a-zà-üA-ZÀ-Ü0-9]+))(=?[a-zA-Z]{2,3})?$))$'
-CMD [".venv/bin/fastapi", "run", "do_main.py", "--port", "80"]
+CMD ["sh", "-c", ".venv/bin/fastapi run do_main.py --port 80 --workers $WORKERS"]
