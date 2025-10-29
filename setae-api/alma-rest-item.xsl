@@ -95,7 +95,6 @@
 			    <xsl:value-of select="item/effectiveCallNumberComponents/prefix"/>
 		    </xsl:if>
 	    </prefix>
-	    <xsl:if test="string-length(item/effectiveCallNumberComponents/prefix)=0"><prefix></prefix></xsl:if>
             <suffix>
               <xsl:value-of select="item/effectiveCallNumberComponents/suffix"/>
             </suffix>
