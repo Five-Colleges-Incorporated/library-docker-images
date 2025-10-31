@@ -1,5 +1,6 @@
 import ipaddress
 import logging
+import os
 
 from fastapi.responses import Response
 
@@ -33,6 +34,9 @@ logger = logging.getLogger('uvicorn.error')
 
 @app.middleware('http')
 async def filter_ips(request: Request, call_next):
+    if os.getenv("LOCALHOST"):
+        return await(call_next(request))
+
     if request.url.path in ['/readyz', '/livez']:
         return await(call_next(request))
 
