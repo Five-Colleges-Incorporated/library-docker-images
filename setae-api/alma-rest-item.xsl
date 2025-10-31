@@ -4,6 +4,7 @@
   <xsl:template match="/">
     <item>
       <xsl:choose>
+
         <xsl:when test="error">
           <error>
             <xsl:value-of select="error" />
@@ -23,20 +24,18 @@
             <location desc="ERROR">ERROR</location>
           </item_data>
         </xsl:when>
+
         <xsl:otherwise>
           <bib_data>
             <mms_id></mms_id>
-	    <title>
-		    <xsl:value-of select="item/title"/>
-	    - 	 <xsl:value-of select="item/hrid"/>
+            <title>
+              <xsl:value-of select="item/title"/> - <xsl:value-of select="item/hrid"/>
             </title>
             <author>
               <xsl:for-each select="item/contributorNames/item"><xsl:value-of select="name"/>,</xsl:for-each>
             </author>
             <complete_edition></complete_edition>
-            <network_numbers>
-              <network_number></network_number>
-            </network_numbers>
+            <network_numbers></network_numbers>
             <place_of_publication></place_of_publication>
             <date_of_publication></date_of_publication>
             <publisher_const></publisher_const>
@@ -44,13 +43,13 @@
           <holding_data>
             <holding_id>
               <xsl:value-of select="item/holdingsRecordId"/>
-      </holding_id>
-      <call_number_type desc="Library of Congress classification">
-	      <xsl:if test="item/effectiveCallNumberComponents/typeId = '95467209-6d7b-468b-94df-0f5d7ad2747d'">0</xsl:if>
-	      <xsl:if test="item/effectiveCallNumberComponents/typeId = '83f4ee5c-3df0-4f1a-b620-75b0ca0d4929'">4</xsl:if>
-	      <xsl:if test="item/effectiveCallNumberComponents/typeId = '6caca63e-5651-4db6-9247-3205156e9699'">8</xsl:if>
-	      <xsl:if test="item/effectiveCallNumberComponents/typeId = '03dd64d0-5626-4ecd-8ece-4531e0069f35'">1</xsl:if>
-      </call_number_type>
+            </holding_id>
+            <call_number_type desc="Library of Congress classification">
+              <xsl:if test="item/effectiveCallNumberComponents/typeId = '95467209-6d7b-468b-94df-0f5d7ad2747d'">0</xsl:if>
+              <xsl:if test="item/effectiveCallNumberComponents/typeId = '83f4ee5c-3df0-4f1a-b620-75b0ca0d4929'">4</xsl:if>
+              <xsl:if test="item/effectiveCallNumberComponents/typeId = '6caca63e-5651-4db6-9247-3205156e9699'">8</xsl:if>
+              <xsl:if test="item/effectiveCallNumberComponents/typeId = '03dd64d0-5626-4ecd-8ece-4531e0069f35'">1</xsl:if>
+            </call_number_type>
             <call_number>
               <xsl:value-of select="item/effectiveCallNumberComponents/callNumber"/>
             </call_number>
@@ -89,14 +88,26 @@
             <policy></policy>
             <provenance></provenance>
             <po_line></po_line>
-	    <is_magnetic></is_magnetic>
+            <is_magnetic></is_magnetic>
             <prefix>
-		    <xsl:if test="string-length(item/effectiveCallNumberComponents/prefix)>0">
-			    <xsl:value-of select="item/effectiveCallNumberComponents/prefix"/>
-		    </xsl:if>
-	    </prefix>
+              <xsl:choose>
+                <xsl:when test="string-length(item/effectiveCallNumberComponents/prefix)>0">
+                  <xsl:value-of select="item/effectiveCallNumberComponents/prefix"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:comment>keep node</xsl:comment>
+                </xsl:otherwise>
+              </xsl:choose>
+            </prefix>
             <suffix>
-              <xsl:value-of select="item/effectiveCallNumberComponents/suffix"/>
+              <xsl:choose>
+                <xsl:when test="string-length(item/effectiveCallNumberComponents/suffix)>0">
+                  <xsl:value-of select="item/effectiveCallNumberComponents/suffix"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:comment>keep node</xsl:comment>
+                </xsl:otherwise>
+              </xsl:choose>
             </suffix>
             <year_of_issue></year_of_issue>
             <enumeration_a>
@@ -116,9 +127,9 @@
             <chronology_k></chronology_k>
             <chronology_l></chronology_l>
             <chronology_m></chronology_m>
-	    <description>
-		    <xsl:value-of select="item/volume"/>
-	    </description>
+            <description>
+              <xsl:value-of select="item/volume"/>
+            </description>
             <receiving_operator></receiving_operator>
             <process_type></process_type>
             <inventory_number></inventory_number>
