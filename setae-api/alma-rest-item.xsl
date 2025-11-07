@@ -55,7 +55,14 @@
             </call_number>
             <accession_number></accession_number>
             <copy_id>
-              <xsl:value-of select="item/copyNumber"/>
+              <xsl:choose>
+                <xsl:when test="string-length(item/copyNumber)>0">
+                  <xsl:value-of select="item/copyNumber"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:comment>keep node</xsl:comment>
+                </xsl:otherwise>
+              </xsl:choose>
             </copy_id>
             <in_temp_location>false</in_temp_location>
           </holding_data>
@@ -111,7 +118,14 @@
             </suffix>
             <year_of_issue></year_of_issue>
             <enumeration_a>
-              <xsl:value-of select="item/enumeration"/>
+              <xsl:choose>
+                <xsl:when test="string-length(item/enumeration)>0">
+                  <xsl:value-of select="item/enumeration"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:comment>keep node</xsl:comment>
+                </xsl:otherwise>
+              </xsl:choose>
             </enumeration_a>
             <enumeration_b></enumeration_b>
             <enumeration_c></enumeration_c>
@@ -121,14 +135,28 @@
             <enumeration_g></enumeration_g>
             <enumeration_h></enumeration_h>
             <chronology_i>
-              <xsl:value-of select="item/chronology"/>
+              <xsl:choose>
+                <xsl:when test="string-length(item/chronology)>0">
+                  <xsl:value-of select="item/chronology"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:comment>keep node</xsl:comment>
+                </xsl:otherwise>
+              </xsl:choose>
             </chronology_i>
             <chronology_j></chronology_j>
             <chronology_k></chronology_k>
             <chronology_l></chronology_l>
             <chronology_m></chronology_m>
             <description>
-              <xsl:value-of select="item/volume"/>
+              <xsl:choose>
+                <xsl:when test="string-length(item/volume)>0">
+                  <xsl:value-of select="item/volume"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:comment>keep node</xsl:comment>
+                </xsl:otherwise>
+              </xsl:choose>
             </description>
             <receiving_operator></receiving_operator>
             <process_type></process_type>
@@ -151,7 +179,14 @@
             <storage_location_id></storage_location_id>
             <pages></pages>
             <pieces>
-              <xsl:value-of select="item/numberOfPieces"/>
+              <xsl:choose>
+                <xsl:when test="string-length(item/numberOfPieces)>0">
+                  <xsl:value-of select="item/numberOfPieces"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:comment>keep node</xsl:comment>
+                </xsl:otherwise>
+              </xsl:choose>
             </pieces>
             <public_note></public_note>
             <fulfillment_note></fulfillment_note>

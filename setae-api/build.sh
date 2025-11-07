@@ -61,6 +61,6 @@ echo ""
 
 if [[ "${1:-}" == "--check-xml" ]] || [[ "${2:-}" == "--check-xml" ]]; then
 	echo "fetching xml"
-	curl "localhost:$build/items/5159903*-UMA"
+	curl -H "do-connecting-ip: 148.85.255.199" "localhost:$build/items/5159903*-UMA"
 	echo ""
 fi
