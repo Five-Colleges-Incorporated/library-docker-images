@@ -2,3 +2,7 @@
 	path = setae-api/setae-api
 	url = https://github.com/Five-Colleges-Incorporated/setae-api.git
 	branch = alphanumeric-barcode
+[submodule "folio-user-import/folio_data_import"]
+	path = folio-user-import/folio_data_import
+	url = https://github.com/Five-Colleges-Incorporated/folio_data_import.git
+	branch = release-v0.4.2
