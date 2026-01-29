@@ -16,7 +16,8 @@ fi
 
 if [[ "${1:-}" == "--relock" ]] || [[ "${2:-}" == "--relock" ]]; then
 	git checkout requirements.lock
-	uv pip compile ./folio_data_import/pyproject.toml -o requirements.lock > /dev/null
+	uv pip compile --no-cache ./folio_data_import/pyproject.toml > requirements.lock
+	uv pip compile --no-cache ./requirements.txt >> requirements.lock
 	git --no-pager diff requirements.lock
 fi
 
@@ -29,5 +30,5 @@ docker build \
 	-t edu.fivecolleges.libraries.folio-user-import:"$build" \
 	.
 
-fui="$(docker run -d -p "$build":80 --env-file .env edu.fivecolleges.libraries.folio-user-import:"$build")"
-trap 'docker container rm --force "$fui" >/dev/null' exit
+#fui="$(docker run -d --env-file .env edu.fivecolleges.libraries.folio-user-import:"$build")"
+#trap 'docker container rm --force "$fui" >/dev/null' exit
