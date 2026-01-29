@@ -1,6 +1,6 @@
 # yaml-language-server: $schema: https://raw.githubusercontent.com/SchemaStore/schemastore/refs/heads/master/src/schemas/json/github-workflow.json
 ---
-name: "Setae API Docker Build"
+name: "FOLIO User Import Docker Build"
 
 on:
   workflow_dispatch:
@@ -11,12 +11,12 @@ on:
         required: true
 
 env:
-  SUBMODULE_NAME: setae-api
+  SUBMODULE_NAME: folio_data_import
   REGISTRY: ghcr.io
   NAMESPACE: Five-Colleges-Incorporated
-  IMAGE_NAME: setae-api
-  IMAGE_TITLE: Setae API
-  IMAGE_DESCRIPTION: 5C Build of API middleware to support LTS workflows in FOLIO
+  IMAGE_NAME: folio-user-import
+  IMAGE_TITLE: Folio User Import
+  IMAGE_DESCRIPTION: 5C Build of folio_data_import for importing Users
 
 jobs:
   build-and-push-image:
