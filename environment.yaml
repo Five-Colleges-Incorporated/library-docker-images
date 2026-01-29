@@ -1,0 +1,11 @@
+---
+name: library-docker-images
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - uv==0.9.5
+  - ruff==0.14.14
+  - shellcheck==0.10.0
+  - go-shfmt==3.12.0
+  - precious==0.10.0
