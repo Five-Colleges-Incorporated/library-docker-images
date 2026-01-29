@@ -19,6 +19,8 @@ UV
 FROM scratch AS app
 ADD ./Patron-Transform /app
 ADD ./do_main.py /app/
+ADD ./config.ini /app/.env
+RUN mkdir /app/output
 
 FROM python AS folio_data_import
 WORKDIR /app
