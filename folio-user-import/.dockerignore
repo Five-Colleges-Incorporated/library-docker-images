@@ -1,0 +1,5 @@
+.env
+folio_data_import/.git
+
+folio_data_import/.github
+folio_data_import/tests
