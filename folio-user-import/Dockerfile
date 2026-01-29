@@ -25,4 +25,4 @@ WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=app /app /app
 
-CMD ["python", "./do_main.py"]
+CMD [".venv/bin/python", "./do_main.py"]
