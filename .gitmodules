@@ -6,3 +6,7 @@
 	path = folio-user-import/folio_data_import
 	url = https://github.com/Five-Colleges-Incorporated/folio_data_import.git
 	branch = release-v0.4.2
+[submodule "Patron-Transform/Patron-Transform"]
+	path = Patron-Transform/Patron-Transform
+	url = https://github.com/ameliasutton/Patron-Transform.git
+	branch = master

@@ -1,0 +1,86 @@
+[commands."common.EOF"]
+type = "tidy"
+include = ["*"]
+exclude = [
+	"setae-api/setae-api/**/*",
+	"folio-user-import/folio_data_import/**/*",
+	"Patron-Transform/Patron-Transform/**/*",
+]
+cmd = ["end-of-file-fixer"]
+ok_exit_codes = [0, 1]
+[commands."common.whitespace"]
+type = "tidy"
+include = ["*"]
+exclude = [
+	"setae-api/setae-api/**/*",
+	"folio-user-import/folio_data_import/**/*",
+	"Patron-Transform/Patron-Transform/**/*",
+]
+cmd = ["trailing-whitespace-fixer", "--markdown-linebreak-ext=md"]
+ok_exit_codes = [0, 1]
+[commands."common.large-files"]
+type = "lint"
+include = ["*"]
+exclude = [
+	"setae-api/setae-api/**/*",
+	"folio-user-import/folio_data_import/**/*",
+	"Patron-Transform/Patron-Transform/**/*",
+]
+cmd = ["check-added-large-files"]
+ok_exit_codes = [0]
+[commands."common.case"]
+type = "lint"
+include = ["*"]
+exclude = [
+	"setae-api/setae-api/**/*",
+	"folio-user-import/folio_data_import/**/*",
+	"Patron-Transform/Patron-Transform/**/*",
+]
+cmd = ["check-case-conflict"]
+ok_exit_codes = [0]
+
+[commands.shfmt]
+type = "both"
+include = ["*.sh"]
+exclude = [
+	"setae-api/setae-api/**/*",
+	"folio-user-import/folio_data_import/**/*",
+	"Patron-Transform/Patron-Transform/**/*",
+]
+cmd = ["shfmt"]
+lint_flags = ["--diff"]
+tidy_flags = ["--write", "--simplify"]
+ok_exit_codes = [0]
+[commands.shellcheck]
+type = "lint"
+include = ["*.sh"]
+exclude = [
+	"setae-api/setae-api/**/*",
+	"folio-user-import/folio_data_import/**/*",
+	"Patron-Transform/Patron-Transform/**/*",
+]
+cmd = ["shellcheck", "--color=always"]
+ok_exit_codes = [0]
+
+[commands."ruff.lint"]
+type = "both"
+include = ["*.py"]
+exclude = [
+	"setae-api/setae-api/**/*",
+	"folio-user-import/folio_data_import/**/*",
+	"Patron-Transform/Patron-Transform/**/*",
+]
+cmd = ["ruff", "check", "--quiet"]
+tidy_flags = ["--fix-only"]
+ok_exit_codes = [0]
+[commands."ruff.format"]
+type = "both"
+include = ["*.py"]
+exclude = [
+	"setae-api/setae-api/**/*",
+	"folio-user-import/folio_data_import/**/*",
+	"Patron-Transform/Patron-Transform/**/*",
+]
+cmd = ["ruff", "format", "--quiet"]
+lint_flags = ["--diff"]
+ok_exit_codes = [0]
