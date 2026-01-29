@@ -14,9 +14,9 @@ else
 	echo "have $version (no changes)"
 fi
 
-if [[ "${1:-}" == "--relock" ]] || [[ "${2:-}" == "--relock" ]]; then
+if [[ ${1:-} == "--relock" ]] || [[ ${2:-} == "--relock" ]]; then
 	git checkout requirements.lock
-	uv pip compile requirements.txt -o requirements.lock > /dev/null
+	uv pip compile requirements.txt -o requirements.lock >/dev/null
 	git --no-pager diff requirements.lock
 fi
 
@@ -59,7 +59,7 @@ echo "fetching json"
 curl -H "do-connecting-ip: 148.85.255.199" "localhost:$build/items/310212313168477?format=json"
 echo ""
 
-if [[ "${1:-}" == "--check-xml" ]] || [[ "${2:-}" == "--check-xml" ]]; then
+if [[ ${1:-} == "--check-xml" ]] || [[ ${2:-} == "--check-xml" ]]; then
 	echo "fetching xml"
 	curl -H "do-connecting-ip: 148.85.255.199" "localhost:$build/items/5159903*-UMA"
 	echo ""
