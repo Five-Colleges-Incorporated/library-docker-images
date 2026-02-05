@@ -14,7 +14,7 @@ else
 	echo "have $version (no changes)"
 fi
 
-if [[ ${1:-} == "--relock" ]] || [[ ${2:-} == "--relock" ]]; then
+if [[ ${1:-} == "--relock" ]]; then
 	git checkout requirements.lock
 	uv pip compile --no-cache ./folio_data_import/pyproject.toml >requirements.lock
 	uv pip compile --no-cache ./requirements.txt >>requirements.lock

@@ -10,7 +10,6 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import boto3
-from botocore.client import Config
 from folio_data_import.UserImport import UserImporter
 from folioclient import FolioClient
 
@@ -75,7 +74,6 @@ def _create_spaces_client(key, secret):
             ),
             aws_access_key_id=key,
             aws_secret_access_key=secret,
-            config=Config(s3={"addressing_style": "virtual"}),
         ),
     ) as s3:
         yield s3
