@@ -128,19 +128,11 @@ def upload_logs():
         s3.upload_file(LOG_FILE, logs_bucket, log_key)
 
 
-async def notify_error(_):
-    """Will send a message to Slack with the error."""
-
-
 async def main():
     """The cli entrypoint to run the full import."""
-    try:
-        download_users()
-        await import_users()
-        upload_logs()
-    except Exception as ex:
-        await notify_error(ex)
-        raise
+    download_users()
+    await import_users()
+    upload_logs()
 
 
 if __name__ == "__main__":
