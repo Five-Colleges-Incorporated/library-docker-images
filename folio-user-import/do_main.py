@@ -24,6 +24,15 @@ logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler())
 
 
+class NoUserFileError(Exception):
+    """Raised when a user file cannot be found with the configured prefix."""
+
+    def __init__(self):
+        """Initialize a new NoUserFileError."""
+        msg = f"No file found for prefix '{os.getenv('USERS_PREFIX')}*'"
+        super().__init__(msg)
+
+
 async def import_users():
     """Imports users via the folio_data_import library."""
     library_name = os.getenv("LIBRARY_NAME")
@@ -81,13 +90,17 @@ def download_users():
     with _create_spaces_client(os.getenv("USERS_KEY"), os.getenv("USERS_SECRET")) as s3:
         paginator = s3.get_paginator("list_objects_v2")
         latest = None
-        for page in paginator.paginate(Bucket=bucket):
+        for page in paginator.paginate(
+            Bucket=bucket,
+            Prefix=os.getenv("USERS_PREFIX", ""),
+        ):
             for obj in page.get("Contents", []):
-                if obj["Key"].startswith("failed_users"):
-                    continue
                 if (latest is None) or (obj["LastModified"] > latest["LastModified"]):
                     latest = obj
         users_key = latest["Key"] if latest else None
+
+    if users_key is None:
+        raise NoUserFileError
 
     logger.info("downloading latest users file: %s", users_key)
     with USERS_FILE.open("wb+") as users_file:
@@ -109,7 +122,7 @@ def upload_logs():
             logger.info("No errors file")
 
     with _create_spaces_client(os.getenv("LOGS_KEY"), os.getenv("LOGS_SECRET")) as s3:
-        library = " ".join(os.getenv("LIBRARY_NAME").strip('"').split()[:-1])
+        library = " ".join(os.getenv("LIBRARY_NAME", "").strip('"').split()[:-1])
         log_key = f"{library}_{now}.log"
         logger.info("Uploading log file to: %s/%s", logs_bucket, log_key)
         s3.upload_file(LOG_FILE, logs_bucket, log_key)
