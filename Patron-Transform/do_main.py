@@ -3,7 +3,7 @@
 import logging
 import os
 from contextlib import closing, contextmanager
-from datetime import UTC, datetime
+from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -37,7 +37,7 @@ def transform_users():
     """Transforms users via the UMass Patron Transform script."""
     config = ".env"
     dotenv.load_dotenv(config)
-    converter = PatronDataTransformer(config, datetime.now(UTC))
+    converter = PatronDataTransformer(config, datetime.now())  # noqa: DTZ005 (library isn't tz aware)
     converter.preparePatronLoad()
 
 
@@ -65,8 +65,8 @@ def _dowload_latest(prefix, name, required=False):
     logger.info("Finding latest %s file in: %s", prefix, bucket)
     key = None
     with _create_spaces_client(
-        os.getenv("ACCESS_KEY"),
-        os.getenv("ACCESS_SECRET"),
+        os.getenv("USERS_KEY"),
+        os.getenv("USERS_SECRET"),
     ) as s3:
         paginator = s3.get_paginator("list_objects_v2")
         latest = None
@@ -91,11 +91,19 @@ def _dowload_latest(prefix, name, required=False):
 
 def download_users():
     """Downloads input files and previously condensed files."""
-    full_load = os.getenv("FORCE_FULL_LOAD", "0") == "1" or (
-        _dowload_latest(STAFF_CONDENSED_PREFIX, "staff_condense") is not None
-        and _dowload_latest(STUDENT_CONDENSED_PREFIX, "student_condense") is not None
-    )
+    full_load = os.getenv("FORCE_FULL_LOAD", "0") == "1"
+    logger.info("Forced fullLoad: %s", full_load)
+
+    if not full_load:
+        condensed = (
+            _dowload_latest(STAFF_CONDENSED_PREFIX, "staff_condense") is not None
+            and _dowload_latest(STUDENT_CONDENSED_PREFIX, "student_condense")
+            is not None
+        )
+        logger.info("Found both condensed files: %s", condensed)
+        full_load = full_load or not condensed
     os.environ["fullLoad"] = str(full_load)  # noqa: SIM112
+    logger.info("fullLoad env set to %s", os.getenv("fullLoad"))  # noqa: SIM112
 
     _dowload_latest(os.getenv("STAFF_PREFIX"), "staff_input", required=True)
     _dowload_latest(os.getenv("STUDENT_PREFIX"), "student_input", required=True)
@@ -103,11 +111,11 @@ def download_users():
 
 def upload_users(now: str):
     """Uploads the errors and logs after the import."""
-    users_bucket = os.getenv("BUCKET")
+    users_bucket = os.getenv("USERS_BUCKET")
 
     with _create_spaces_client(
-        os.getenv("ACCESS_KEY"),
-        os.getenv("ACCESS_SECRET"),
+        os.getenv("USERS_KEY"),
+        os.getenv("USERS_SECRET"),
     ) as s3:
         logger.info("Uploading condensed staff file to: %s", users_bucket)
         s3.upload_file(
@@ -136,8 +144,8 @@ def upload_logs(now: str):
     logs_bucket = os.getenv("LOGS_BUCKET")
 
     with _create_spaces_client(
-        os.getenv("ACCESS_KEY"),
-        os.getenv("ACCESS_SECRET"),
+        os.getenv("LOGS_KEY"),
+        os.getenv("LOGS_SECRET"),
     ) as s3:
         if LOG_FILE.exists() and LOG_FILE.stat().st_size > 0:
             logger.info("Uploading log file to: %s", logs_bucket)
