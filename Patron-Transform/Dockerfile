@@ -20,11 +20,11 @@ FROM scratch AS app
 ADD ./Patron-Transform /app
 ADD ./do_main.py /app/
 ADD ./config.ini /app/.env
-RUN mkdir /app/output
 
 FROM python AS folio_data_import
 WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=app /app /app
+RUN mkdir /app/output
 
 CMD [".venv/bin/python", "./do_main.py"]

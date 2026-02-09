@@ -24,9 +24,9 @@ build="$RANDOM"
 echo "building $build"
 docker build \
 	--build-arg PYTHON_VERSION="$(cat .python-version)" \
-	-t edu.fivecolleges.libraries.Patron-Tranform:latest \
-	-t edu.fivecolleges.libraries.Patron-Transform:"$version" \
-	-t edu.fivecolleges.libraries.Patron-Transform:"$build" \
+	-t edu.fivecolleges.libraries.patron-tranform:latest \
+	-t edu.fivecolleges.libraries.patron-transform:"$version" \
+	-t edu.fivecolleges.libraries.patron-transform:"$build" \
 	.
 
 #pt="$(docker run -d --env-file .env edu.fivecolleges.libraries.Patron-Transform:"$build")"
