@@ -3,8 +3,11 @@ type = "tidy"
 include = ["*"]
 exclude = [
 	"setae-api/setae-api/**/*",
+	"setae-api/setae-api",
 	"folio-user-import/folio_data_import/**/*",
+	"folio-user-import/folio_data_import",
 	"Patron-Transform/Patron-Transform/**/*",
+	"Patron-Transform/Patron-Transform",
 ]
 cmd = ["end-of-file-fixer"]
 ok_exit_codes = [0, 1]
@@ -13,8 +16,11 @@ type = "tidy"
 include = ["*"]
 exclude = [
 	"setae-api/setae-api/**/*",
+	"setae-api/setae-api",
 	"folio-user-import/folio_data_import/**/*",
+	"folio-user-import/folio_data_import",
 	"Patron-Transform/Patron-Transform/**/*",
+	"Patron-Transform/Patron-Transform",
 ]
 cmd = ["trailing-whitespace-fixer", "--markdown-linebreak-ext=md"]
 ok_exit_codes = [0, 1]
@@ -23,8 +29,11 @@ type = "lint"
 include = ["*"]
 exclude = [
 	"setae-api/setae-api/**/*",
+	"setae-api/setae-api",
 	"folio-user-import/folio_data_import/**/*",
+	"folio-user-import/folio_data_import",
 	"Patron-Transform/Patron-Transform/**/*",
+	"Patron-Transform/Patron-Transform",
 ]
 cmd = ["check-added-large-files"]
 ok_exit_codes = [0]
@@ -33,8 +42,11 @@ type = "lint"
 include = ["*"]
 exclude = [
 	"setae-api/setae-api/**/*",
+	"setae-api/setae-api",
 	"folio-user-import/folio_data_import/**/*",
+	"folio-user-import/folio_data_import",
 	"Patron-Transform/Patron-Transform/**/*",
+	"Patron-Transform/Patron-Transform",
 ]
 cmd = ["check-case-conflict"]
 ok_exit_codes = [0]
