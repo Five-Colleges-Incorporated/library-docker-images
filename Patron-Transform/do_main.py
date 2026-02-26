@@ -158,14 +158,23 @@ def upload_logs(now: str):
 
 def main():
     """The cli entrypoint to run the full import."""
-    download_users()
-    transform_users()
+    now = None
+    try:
+        download_users()
+        transform_users()
 
-    now = datetime.now(
-        ZoneInfo(os.getenv("TIMEZONE", "America/New_York")),
-    ).isoformat()
-    upload_users(now)
-    upload_logs(now)
+        now = datetime.now(
+            ZoneInfo(os.getenv("TIMEZONE", "America/New_York")),
+        ).isoformat()
+        upload_users(now)
+    finally:
+        now = (
+            now
+            or datetime.now(
+                ZoneInfo(os.getenv("TIMEZONE", "America/New_York")),
+            ).isoformat()
+        )
+        upload_logs(now)
 
 
 if __name__ == "__main__":
