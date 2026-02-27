@@ -129,8 +129,10 @@ def upload_logs():
 async def main():
     """The cli entrypoint to run the full import."""
     download_users()
-    await import_users()
-    upload_logs()
+    try:
+        await import_users()
+    finally:
+        upload_logs()
 
 
 if __name__ == "__main__":
