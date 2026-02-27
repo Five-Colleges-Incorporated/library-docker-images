@@ -39,7 +39,11 @@ async def import_users():
     logger.info("Replacing %s with %s", library_name, library_code)
     with FileInput(USERS_FILE, inplace=True) as file:
         for line in file:
-            print(line.replace(library_name, library_code), end="")  # noqa: T201
+            # new lines at the end of the file choke the import
+            # I'm not 100% sure if FileInput has the \n character in the string
+            # but anything shorter than 5 can't possibly be a valid user anyways
+            if len(line) >= 5:
+                print(line.replace(library_name, library_code), end="")  # noqa: T201
 
     logger.info("Setting up Importer")
     importer = UserImporter(
