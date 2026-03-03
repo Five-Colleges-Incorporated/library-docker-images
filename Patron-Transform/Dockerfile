@@ -26,5 +26,6 @@ WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=app /app /app
 RUN mkdir /app/output
+RUN sed -i 's/"pronouns":.*//g' /app/transformPatronData.py
 
 CMD [".venv/bin/python", "./do_main.py"]
