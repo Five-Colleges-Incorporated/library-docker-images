@@ -70,8 +70,7 @@ def upload_logs():
     logs_bucket = os.getenv("LOGS_BUCKET")
 
     with _create_spaces_client(os.getenv("LOGS_KEY"), os.getenv("LOGS_SECRET")) as s3:
-        library = " ".join(os.getenv("LIBRARY_NAME", "").strip('"').split()[:-1])
-        log_key = f"{library}_{now.isoformat()}.log"
+        log_key = f"{os.getenv('LIBRARY_NAME', 'UNKNOWN')}_{now.isoformat()}.log"
         logger.info("Uploading log file to: %s/%s", logs_bucket, log_key)
         s3.upload_file(LOG_FILE, logs_bucket, log_key)
 
