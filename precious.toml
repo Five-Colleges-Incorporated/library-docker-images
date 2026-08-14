@@ -6,6 +6,8 @@ exclude = [
 	"setae-api/setae-api",
 	"folio-user-import/folio_data_import/**/*",
 	"folio-user-import/folio_data_import",
+	"folio-auto-renew/folio-auto-renew/**/*",
+	"folio-auto-renew/folio-auto-renew",
 	"Patron-Transform/Patron-Transform/**/*",
 	"Patron-Transform/Patron-Transform",
 ]
@@ -19,6 +21,8 @@ exclude = [
 	"setae-api/setae-api",
 	"folio-user-import/folio_data_import/**/*",
 	"folio-user-import/folio_data_import",
+	"folio-auto-renew/folio-auto-renew/**/*",
+	"folio-auto-renew/folio-auto-renew",
 	"Patron-Transform/Patron-Transform/**/*",
 	"Patron-Transform/Patron-Transform",
 ]
@@ -32,6 +36,8 @@ exclude = [
 	"setae-api/setae-api",
 	"folio-user-import/folio_data_import/**/*",
 	"folio-user-import/folio_data_import",
+	"folio-auto-renew/folio-auto-renew/**/*",
+	"folio-auto-renew/folio-auto-renew",
 	"Patron-Transform/Patron-Transform/**/*",
 	"Patron-Transform/Patron-Transform",
 ]
@@ -45,6 +51,8 @@ exclude = [
 	"setae-api/setae-api",
 	"folio-user-import/folio_data_import/**/*",
 	"folio-user-import/folio_data_import",
+	"folio-auto-renew/folio-auto-renew/**/*",
+	"folio-auto-renew/folio-auto-renew",
 	"Patron-Transform/Patron-Transform/**/*",
 	"Patron-Transform/Patron-Transform",
 ]
@@ -57,6 +65,7 @@ include = ["*.sh"]
 exclude = [
 	"setae-api/setae-api/**/*",
 	"folio-user-import/folio_data_import/**/*",
+	"folio-auto-renew/folio-auto-renew/**/*",
 	"Patron-Transform/Patron-Transform/**/*",
 ]
 cmd = ["shfmt"]
@@ -69,6 +78,7 @@ include = ["*.sh"]
 exclude = [
 	"setae-api/setae-api/**/*",
 	"folio-user-import/folio_data_import/**/*",
+	"folio-auto-renew/folio-auto-renew/**/*",
 	"Patron-Transform/Patron-Transform/**/*",
 ]
 cmd = ["shellcheck", "--color=always"]
@@ -80,6 +90,7 @@ include = ["*.py"]
 exclude = [
 	"setae-api/setae-api/**/*",
 	"folio-user-import/folio_data_import/**/*",
+	"folio-auto-renew/folio-auto-renew/**/*",
 	"Patron-Transform/Patron-Transform/**/*",
 ]
 cmd = ["ruff", "check", "--quiet"]
@@ -91,6 +102,7 @@ include = ["*.py"]
 exclude = [
 	"setae-api/setae-api/**/*",
 	"folio-user-import/folio_data_import/**/*",
+	"folio-auto-renew/folio-auto-renew/**/*",
 	"Patron-Transform/Patron-Transform/**/*",
 ]
 cmd = ["ruff", "format", "--quiet"]
