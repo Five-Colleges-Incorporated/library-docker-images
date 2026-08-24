@@ -18,6 +18,7 @@ USERS_FILE = PWD / "users.ndjson"
 ERRORS_FILE = PWD / "errors"
 LOG_FILE = PWD / "log"
 
+logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO)
 logger = logging.getLogger()
 logger.addHandler(logging.StreamHandler())
