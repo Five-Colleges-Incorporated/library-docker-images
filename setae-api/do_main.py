@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 allow_list = [
     # https://networksdb.io/ip-addresses-of/amherst-college
-    ipaddress.ip_network("148.85.0.0/16"),
+    ipaddress.ip_network("148.85.192.0/18"),
     # https://www.hampshire.edu/it/user-support/network-wifi-and-vpn/technical-description-our-network
     # cross-referenced with LDLite ranges
     ipaddress.ip_network("144.121.36.224/27"),
