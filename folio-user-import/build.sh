@@ -1,24 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
-IFS=$'\n\t'
 
-pushd ./folio_data_import >/dev/null || exit
-old_version="$(git rev-parse --short=8 HEAD)"
-git fetch
-git pull
-version="$(git rev-parse --short=8 HEAD)"
-popd >/dev/null || exit
+old_version="$(
+	(grep 'folio-data-import==' requirements.lock || echo 'folio-data-import==NA') |
+		awk -F'==' '{ print $2 }'
+)"
+echo "$old_version"
+
+if [[ $old_version == "NA" || ${1:-} == "--relock" ]]; then
+	git checkout requirements.lock
+	uv pip compile --no-cache ./requirements.txt >requirements.lock
+	git --no-pager diff requirements.lock
+fi
+version="$(grep 'folio-data-import==' requirements.lock | awk -F'==' '{ print $2 }')"
+
 if [[ $old_version != "$version" ]]; then
 	echo "have $version (was $old_version)"
 else
 	echo "have $version (no changes)"
-fi
-
-if [[ ${1:-} == "--relock" ]]; then
-	git checkout requirements.lock
-	uv pip compile --no-cache ./folio_data_import/pyproject.toml >requirements.lock
-	uv pip compile --no-cache ./requirements.txt >>requirements.lock
-	git --no-pager diff requirements.lock
 fi
 
 build="$RANDOM"

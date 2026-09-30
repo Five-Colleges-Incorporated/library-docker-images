@@ -16,13 +16,9 @@ uv venv --no-managed-python
 uv pip install --no-cache -r requirements.txt
 UV
 
-FROM scratch AS app
-ADD ./folio_data_import/src /app
-ADD ./do_main.py /app/
-
 FROM python AS folio_data_import
 WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
-COPY --from=app /app /app
+COPY ./do_main.py /app/
 
 CMD [".venv/bin/python", "./do_main.py"]

@@ -1,1 +1,2 @@
+folio_data_import==0.6.8
 boto3>=1.42.33
