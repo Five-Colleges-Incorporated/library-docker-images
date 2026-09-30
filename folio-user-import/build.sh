@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+pyversion="$(cat .python-version)"
+
 old_version="$(
 	(grep 'folio-data-import==' requirements.lock || echo 'folio-data-import==NA') |
 		awk -F'==' '{ print $2 }'
@@ -9,7 +11,7 @@ echo "$old_version"
 
 if [[ $old_version == "NA" || ${1:-} == "--relock" ]]; then
 	git checkout requirements.lock
-	uv pip compile --no-cache ./requirements.txt >requirements.lock
+	uv pip compile --python-version "$pyversion" --no-cache ./requirements.txt >requirements.lock
 	git --no-pager diff requirements.lock
 fi
 version="$(grep 'folio-data-import==' requirements.lock | awk -F'==' '{ print $2 }')"
@@ -22,8 +24,8 @@ fi
 
 build="$RANDOM"
 echo "building $build"
+#--build-arg PYTHON_VERSION="$pyversion" \
 docker build \
-	--build-arg PYTHON_VERSION="$(cat .python-version)" \
 	-t edu.fivecolleges.libraries.folio-user-import:latest \
 	-t edu.fivecolleges.libraries.folio-user-import:"$version" \
 	-t edu.fivecolleges.libraries.folio-user-import:"$build" \

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG PYTHON_VERSION=3.14
+ARG PYTHON_VERSION=3.15-rc
 ARG PYTHON=registry.hub.docker.com/library/python:${PYTHON_VERSION}-slim
 FROM ${PYTHON} AS python
 
