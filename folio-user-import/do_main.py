@@ -5,7 +5,6 @@ import logging
 import os
 from contextlib import closing, contextmanager
 from datetime import datetime
-from fileinput import FileInput
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -35,17 +34,6 @@ class NoUserFileError(Exception):
 
 async def import_users():
     """Imports users via the folio_data_import library."""
-    library_name = os.getenv("LIBRARY_NAME")
-    library_code = os.getenv("LIBRARY_CODE")
-    logger.info("Replacing %s with %s", library_name, library_code)
-    with FileInput(USERS_FILE, inplace=True) as file:
-        for line in file:
-            # new lines at the end of the file choke the import
-            # I'm not 100% sure if FileInput has the \n character in the string
-            # but anything shorter than 5 can't possibly be a valid user anyways
-            if len(line) >= 5:
-                print(line.replace(library_name, library_code), end="")  # noqa: T201
-
     logger.info("Setting up Importer")
     importer = UserImporter(
         FolioClient(
