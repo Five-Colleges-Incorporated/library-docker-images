@@ -35,25 +35,26 @@ class NoUserFileError(Exception):
 async def import_users():
     """Imports users via the folio_data_import library."""
     logger.info("Setting up Importer")
-    importer = UserImporter(
-        FolioClient(
-            os.getenv("FOLIO_URL"),
-            os.getenv("FOLIO_TENANT"),
-            os.getenv("FOLIO_USERNAME"),
-            os.getenv("FOLIO_PASSWORD"),
-        ),
-        UserImporter.Config(
-            user_file_paths=USERS_FILE,
-            library_name=os.getenv("LIBRARY_NAME"),
-            batch_size=os.getenv("BATCH_SIZE"),
-            only_update_present_fields=True,
-            limit_simultaneous_requests=6,
-            no_progress=True,
-        ),
-    )
-    await importer.setup(ERRORS_FILE)
-    logger.info("Importing")
-    await importer.do_import()
+    async with FolioClient(
+        os.getenv("FOLIO_URL"),
+        os.getenv("FOLIO_TENANT"),
+        os.getenv("FOLIO_USERNAME"),
+        os.getenv("FOLIO_PASSWORD"),
+    ) as client:
+        importer = UserImporter(
+            client,
+            UserImporter.Config(
+                user_file_paths=USERS_FILE,
+                library_name=os.getenv("LIBRARY_NAME"),
+                batch_size=int(os.getenv("BATCH_SIZE", "250")),
+                only_update_present_fields=True,
+                limit_simultaneous_requests=6,
+                no_progress=True,
+            ),
+        )
+        await importer.setup(ERRORS_FILE)
+        logger.info("Importing")
+        await importer.do_import()
 
 
 @contextmanager
