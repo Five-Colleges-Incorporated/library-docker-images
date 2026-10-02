@@ -1,3 +1,4 @@
-pydantic>=2.14.0b
+folioclient[orjson] # transient dependency but we want orjson
+pydantic>=2.14.0b # 2.14 is required for py3.15 support
 folio_data_import==0.6.8
 boto3>=1.42.33

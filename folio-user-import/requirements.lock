@@ -14,9 +14,9 @@ bandit==1.9.4
     # via flake8-bandit
 black==26.5.1
     # via flake8-black
-boto3==1.43.106
+boto3==1.43.107
     # via -r ./requirements.txt
-botocore==1.43.106
+botocore==1.43.107
     # via
     #   boto3
     #   s3transfer
@@ -26,7 +26,7 @@ certifi==2026.7.22
     #   httpx
 click==8.5.0
     # via black
-cyclopts==5.1.0
+cyclopts==5.1.1
     # via folio-data-import
 docstring-parser==0.18.0
     # via cyclopts
@@ -52,7 +52,9 @@ folio-data-import==0.6.8
 folio-uuid==1.0.1
     # via folio-data-import
 folioclient==1.0.13
-    # via folio-data-import
+    # via
+    #   -r ./requirements.txt
+    #   folio-data-import
 h11==0.16.0
     # via httpcore
 httpcore==1.0.9
@@ -81,6 +83,8 @@ mypy-extensions==1.1.0
     # via
     #   black
     #   isort
+orjson==3.12.0
+    # via folioclient
 packaging==26.3
     # via black
 pathspec==1.1.1

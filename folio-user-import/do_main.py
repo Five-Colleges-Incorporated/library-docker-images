@@ -42,12 +42,14 @@ async def import_users():
             os.getenv("FOLIO_USERNAME"),
             os.getenv("FOLIO_PASSWORD"),
         ),
-        library_name=os.getenv("LIBRARY_NAME"),
-        batch_size=os.getenv("BATCH_SIZE"),
-        only_update_present_fields=os.getenv("ONLY_UPDATE_PRESENT_FIELDS", "1") == "1",
-        user_file_path=USERS_FILE,
-        limit_simultaneous_requests=asyncio.Semaphore(10),
-        no_progress=True,
+        UserImporter.Config(
+            user_file_paths=USERS_FILE,
+            library_name=os.getenv("LIBRARY_NAME"),
+            batch_size=os.getenv("BATCH_SIZE"),
+            only_update_present_fields=True,
+            limit_simultaneous_requests=6,
+            no_progress=True,
+        ),
     )
     await importer.setup(ERRORS_FILE)
     logger.info("Importing")
