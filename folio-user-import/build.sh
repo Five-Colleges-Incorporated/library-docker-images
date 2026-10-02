@@ -30,6 +30,3 @@ docker build \
 	-t edu.fivecolleges.libraries.folio-user-import:"$version" \
 	-t edu.fivecolleges.libraries.folio-user-import:"$build" \
 	.
-
-#fui="$(docker run -d --env-file .env edu.fivecolleges.libraries.folio-user-import:"$build")"
-#trap 'docker container rm --force "$fui" >/dev/null' exit

@@ -1,1 +1,3 @@
+folioclient[orjson]>=1.0.14 # transient dependency but .14 has a critical bugfix
+folio-auto-renew==0.0.2
 boto3>=1.43.71

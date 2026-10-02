@@ -11,7 +11,6 @@ on:
         required: true
 
 env:
-  SUBMODULE_NAME: folio-auto-renew
   REGISTRY: ghcr.io
   NAMESPACE: Five-Colleges-Incorporated
   IMAGE_NAME: folio-auto-renew
@@ -30,17 +29,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-        with:
-          submodules: true
 
-      - name: Extract submodule metadata for Docker
-        id: submodule_meta
+      - name: Extract package version
+        id: package_version
         run: |
-          echo source="$(git config --file .gitmodules --get-regexp url | grep "$IMAGE_NAME" | awk '{ print $2 }')" >> $GITHUB_OUTPUT
-          echo ref="$(git config --file .gitmodules --get-regexp branch | grep "$IMAGE_NAME" | awk '{ print $2 }')" >> $GITHUB_OUTPUT
-          echo sha="$(git submodule status "$IMAGE_NAME/$SUBMODULE_NAME" | awk '{ print $1 }')" >> $GITHUB_OUTPUT
-          echo short="$(git submodule status "$IMAGE_NAME/$SUBMODULE_NAME" | awk '{ print substr($1, 0, 7) }')" >> $GITHUB_OUTPUT
+          echo version="$(grep 'folio-auto-renew==' $IMAGE_NAME/requirements.lock | awk -F'==' '{ print $2 }')" >> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
+
+      - name: Validate image version
+        run: |
+          PKG_VERSION="${{ steps.package_version.outputs.version }}"
+          INPUT_VERSION="${{ inputs.image-version }}"
+
+          if [[ "$INPUT_VERSION" != "$PKG_VERSION"-* ]]; then
+            echo "Image version ($INPUT_VERSION) must start with package version ($PKG_VERSION)"
+            exit 1
+          fi
 
       - name: Log in to the Container registry
         uses: docker/login-action@v4
@@ -56,8 +60,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule,pattern={{date 'YYYYMMDD-hhmmss' tz='America/New_York'}}
-            type=raw,value=${{ steps.submodule_meta.outputs.short }}
-            type=raw,value=${{ steps.submodule_meta.outputs.ref }}
+            type=raw,value=${{ steps.package_version.outputs.version }}
             type=semver,pattern={{version}},value=${{ inputs.image-version }}
             type=semver,pattern={{major}}.{{minor}},value=${{ inputs.image-version }}
             type=semver,pattern={{major}},value=${{ inputs.image-version }}
@@ -66,10 +69,10 @@ jobs:
             org.opencontainers.image.authors=Katherine Bargar <kbargar@fivecolleges.edu>
             org.opencontainers.image.title=${{ env.IMAGE_TITLE }}
             org.opencontainers.image.description=${{ env.IMAGE_DESCRIPTION }}
-            org.opencontainers.image.url=${{ github.repository }}/${{ env.IMAGE_NAME }}
-            org.opencontainers.image.source=${{ steps.submodule_meta.outputs.source }}
-            org.opencontainers.image.revision=${{ steps.submodule_meta.outputs.sha }}
-            org.opencontainers.image.ref.name=${{ steps.submodule_meta.outputs.ref }}
+            org.opencontainers.image.url=http://github.com/${{ github.repository }}/${{ env.IMAGE_NAME }}
+            org.opencontainers.image.source=http://github.com/${{ github.repository }}/${{ env.IMAGE_NAME }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.version=${{ inputs.image-version }}
 
       - name: Build and push Docker image
         id: push

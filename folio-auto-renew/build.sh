@@ -1,30 +1,31 @@
 #!/usr/bin/env bash
 set -euo pipefail
-IFS=$'\n\t'
 
-pushd ./folio-auto-renew >/dev/null || exit
-old_version="$(git rev-parse --short=8 HEAD)"
-git fetch
-git pull
-version="$(git rev-parse --short=8 HEAD)"
-popd >/dev/null || exit
+pyversion="$(cat .python-version)"
+
+old_version="$(
+	(grep 'folio-auto-renew==' requirements.lock || echo 'folio-auto-renew==NA') |
+		awk -F'==' '{ print $2 }'
+)"
+echo "$old_version"
+
+if [[ $old_version == "NA" || ${1:-} == "--relock" ]]; then
+	git checkout requirements.lock
+	uv pip compile --python-version "$pyversion" --no-cache ./requirements.txt >requirements.lock
+	git --no-pager diff requirements.lock
+fi
+version="$(grep 'folio-auto-renew==' requirements.lock | awk -F'==' '{ print $2 }')"
+
 if [[ $old_version != "$version" ]]; then
 	echo "have $version (was $old_version)"
 else
 	echo "have $version (no changes)"
 fi
 
-if [[ ${1:-} == "--relock" ]]; then
-	git checkout requirements.lock
-	uv pip compile --no-cache ./folio-auto-renew/pyproject.toml >requirements.lock
-	uv pip compile --no-cache ./requirements.txt >>requirements.lock
-	git --no-pager diff requirements.lock
-fi
-
 build="$RANDOM"
 echo "building $build"
+#--build-arg PYTHON_VERSION="$pyversion" \
 docker build \
-	--build-arg PYTHON_VERSION="$(cat .python-version)" \
 	-t edu.fivecolleges.libraries.folio-auto-renew:latest \
 	-t edu.fivecolleges.libraries.folio-auto-renew:"$version" \
 	-t edu.fivecolleges.libraries.folio-auto-renew:"$build" \
