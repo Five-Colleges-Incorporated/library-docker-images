@@ -47,7 +47,7 @@ flake8-docstrings==1.7.0
     # via folio-data-import
 flake8-isort==7.0.0
     # via folio-data-import
-folio-data-import==0.6.8
+folio-data-import==0.6.9
     # via -r ./requirements.txt
 folio-uuid==1.0.1
     # via folio-data-import
