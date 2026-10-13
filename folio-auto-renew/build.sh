@@ -24,8 +24,8 @@ fi
 
 build="$RANDOM"
 echo "building $build"
-#--build-arg PYTHON_VERSION="$pyversion" \
 docker build \
+	--build-arg PYTHON_VERSION="$pyversion" \
 	-t edu.fivecolleges.libraries.folio-auto-renew:latest \
 	-t edu.fivecolleges.libraries.folio-auto-renew:"$version" \
 	-t edu.fivecolleges.libraries.folio-auto-renew:"$build" \

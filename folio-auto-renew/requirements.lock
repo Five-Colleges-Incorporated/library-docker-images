@@ -2,9 +2,9 @@
 #    uv pip compile --python-version 3.15 --no-cache ./requirements.txt
 anyio==4.15.1
     # via httpx
-boto3==1.43.108
+boto3==1.43.112
     # via -r ./requirements.txt
-botocore==1.43.108
+botocore==1.43.112
     # via
     #   boto3
     #   s3transfer
@@ -14,7 +14,7 @@ certifi==2026.7.22
     #   httpx
 folio-auto-renew==0.0.2
     # via -r ./requirements.txt
-folioclient==1.0.14
+folioclient==1.0.15
     # via
     #   -r ./requirements.txt
     #   folio-auto-renew
@@ -36,7 +36,7 @@ jmespath==1.1.0
     #   botocore
 jsonref==1.1.0
     # via folioclient
-orjson==3.12.0
+orjson==3.13.0
     # via folioclient
 py-openapi-schema-to-json-schema==0.0.3
     # via folioclient
@@ -50,7 +50,7 @@ s3transfer==0.19.2
     # via boto3
 six==1.17.0
     # via python-dateutil
-tenacity==9.1.4
+tenacity==9.2.1
     # via folioclient
 urllib3==2.8.0
     # via botocore
