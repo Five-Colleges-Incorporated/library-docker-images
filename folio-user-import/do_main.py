@@ -50,6 +50,7 @@ async def import_users():
                 only_update_present_fields=True,
                 limit_simultaneous_requests=6,
                 no_progress=True,
+                handle_permissions_user_objects=False,
             ),
         )
         await importer.setup(ERRORS_FILE)
