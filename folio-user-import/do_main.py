@@ -3,8 +3,10 @@
 import asyncio
 import logging
 import os
+import sys
 from contextlib import closing, contextmanager
 from datetime import datetime
+from fileinput import FileInput
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -34,6 +36,13 @@ class NoUserFileError(Exception):
 
 async def import_users():
     """Imports users via the folio_data_import library."""
+    logger.info("Cleaning input file")
+    with FileInput(USERS_FILE, inplace=True) as file:
+        for line in file:
+            # new lines at the end of the file choke the import
+            if line.strip():
+                sys.stdout.write(line)
+
     logger.info("Setting up Importer")
     async with FolioClient(
         os.getenv("FOLIO_URL"),
@@ -77,7 +86,7 @@ def _create_spaces_client(key, secret):
 
 
 def download_users():
-    """Dowloads the latest uploaded users file to a fixed location."""
+    """Downloads the latest uploaded users file to a fixed location."""
     bucket = os.getenv("USERS_BUCKET")
 
     logger.info("Finding latest users file in: %s", bucket)
