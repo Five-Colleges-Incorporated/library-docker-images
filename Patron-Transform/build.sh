@@ -14,16 +14,18 @@ else
 	echo "have $version (no changes)"
 fi
 
+pyversion="$(cat .python-version)"
+
 if [[ ${1:-} == "--relock" ]]; then
 	git checkout requirements.lock
-	uv pip compile --no-cache ./requirements.txt >requirements.lock
+	uv pip compile --python-version "$pyversion" --no-cache ./requirements.txt >requirements.lock
 	git --no-pager diff requirements.lock
 fi
 
 build="$RANDOM"
 echo "building $build"
 docker build \
-	--build-arg PYTHON_VERSION="$(cat .python-version)" \
+	--build-arg PYTHON_VERSION="$pyversion" \
 	-t edu.fivecolleges.libraries.patron-tranform:latest \
 	-t edu.fivecolleges.libraries.patron-transform:"$version" \
 	-t edu.fivecolleges.libraries.patron-transform:"$build" \
