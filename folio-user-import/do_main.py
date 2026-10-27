@@ -62,6 +62,22 @@ async def import_users():
                 handle_permissions_user_objects=False,
             ),
         )
+        logger.debug("found institution map: %s", importer.custom_field_option_maps)
+        if importer.custom_field_option_maps == {}:
+            importer.custom_field_option_maps = {
+                "institution": {
+                    "multi": False,
+                    "valid_ids": {"opt_2", "opt_1", "opt_3", "opt_0", "opt_4"},
+                    "labels": {
+                        "Amherst College": "opt_0",
+                        "Hampshire College": "opt_1",
+                        "Mount Holyoke College": "opt_2",
+                        "Smith College": "opt_3",
+                        "UMass Amherst": "opt_4",
+                    },
+                },
+            }
+            logger.warning("set empty map to: %s", importer.custom_field_option_maps)
         await importer.setup(ERRORS_FILE)
         logger.info("Importing")
         await importer.do_import()
