@@ -7,51 +7,26 @@ annotated-types==0.8.0
 anyio==4.16.0
     # via httpx
 attrs==26.1.0
-    # via
-    #   cyclopts
-    #   flake8-bugbear
-bandit==1.9.4
-    # via flake8-bandit
-black==26.10.1
-    # via flake8-black
-boto3==1.43.123
+    # via cyclopts
+boto3==1.44.10
     # via -r ./requirements.txt
-botocore==1.43.123
+botocore==1.44.10
     # via
     #   boto3
     #   s3transfer
-certifi==2026.10.23
+certifi==2026.11.20
     # via
     #   httpcore
     #   httpx
-click==8.5.0
-    # via black
-cyclopts==5.3.3
+cyclopts==5.5.3
     # via folio-data-import
 docstring-parser==0.18.0
     # via cyclopts
-flake8==7.5.0
-    # via
-    #   flake8-bandit
-    #   flake8-black
-    #   flake8-bugbear
-    #   flake8-docstrings
-    #   flake8-isort
-flake8-bandit==4.1.1
-    # via folio-data-import
-flake8-black==0.4.0
-    # via folio-data-import
-flake8-bugbear==26.10.27
-    # via folio-data-import
-flake8-docstrings==1.7.0
-    # via folio-data-import
-flake8-isort==7.1.0
-    # via folio-data-import
-folio-data-import==0.6.9
+folio-data-import==0.6.10
     # via -r ./requirements.txt
 folio-uuid==1.0.1
     # via folio-data-import
-folioclient==1.0.16
+folioclient==1.1.0
     # via
     #   -r ./requirements.txt
     #   folio-data-import
@@ -65,69 +40,44 @@ idna==3.20
     # via
     #   anyio
     #   httpx
-isort==9.0.2
-    # via flake8-isort
 jmespath==1.1.0
     # via
     #   boto3
     #   botocore
 jsonref==1.1.0
     # via folioclient
-markdown-it-py==4.2.0
+markdown-it-py==4.3.0
     # via rich
-mccabe==0.7.0
-    # via flake8
 mdurl==0.1.2
     # via markdown-it-py
-mypy-extensions==1.1.0
-    # via
-    #   black
-    #   isort
 orjson==3.13.0
     # via folioclient
-packaging==26.3
-    # via black
-pathspec==1.1.1
-    # via black
-platformdirs==4.14.3
-    # via black
 prompt-toolkit==3.0.53
     # via questionary
 py-openapi-schema-to-json-schema==0.0.3
     # via folioclient
-pycodestyle==2.15.0
-    # via flake8
-pydantic==2.14.2
+pydantic==2.14.4
     # via folio-data-import
-pydantic-core==2.50.2
+pydantic-core==2.50.5
     # via pydantic
-pydocstyle==6.3.0
-    # via flake8-docstrings
-pyflakes==4.1.0
-    # via flake8
 pygments==2.21.0
     # via
     #   rich
     #   rich-rst
 pyhumps==3.8.0
     # via folio-data-import
-pymarc==5.4.0
+pymarc==5.4.1
     # via folio-data-import
 python-dateutil==2.9.0.post0
     # via
     #   botocore
     #   folioclient
-pytokens==0.4.1
-    # via black
-pyyaml==6.0.3
-    # via
-    #   bandit
-    #   folioclient
+pyyaml==6.0.4
+    # via folioclient
 questionary==2.1.1
     # via folio-data-import
 rich==15.0.0
     # via
-    #   bandit
     #   cyclopts
     #   rich-rst
 rich-rst==2.2.0
@@ -136,10 +86,6 @@ s3transfer==0.19.3
     # via boto3
 six==1.17.0
     # via python-dateutil
-snowballstemmer==3.1.1
-    # via pydocstyle
-stevedore==5.9.1
-    # via bandit
 tabulate==0.10.0
     # via folio-data-import
 tenacity==9.2.1
@@ -149,9 +95,9 @@ typing-extensions==4.16.0
     #   pydantic
     #   pydantic-core
     #   typing-inspection
-typing-inspection==0.4.4
+typing-inspection==0.4.5
     # via pydantic
 urllib3==2.8.0
     # via botocore
-wcwidth==0.9.4
+wcwidth==0.9.5
     # via prompt-toolkit
